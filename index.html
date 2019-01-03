@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>jQuery轮播图效果</title>
+    <link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.css">
+    <style>
+        ol,
+        ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        ol li,
+        ul li {
+            float: left;
+        }
+
+        .clearfix::after {
+            clear: both;
+            display: block;
+            content: '';
+            visibility: hidden;
+            height: 0;
+        }
+
+        .clearfix {
+            zoom: 1;
+        }
+
+        .box {
+            width: 400px;
+            height: 307px;
+            margin-left: auto;
+            margin-right: auto;
+            border: 5px solid #eee;
+            position: relative;
+        }
+
+        .box ul li {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+
+        .box ul li img {
+            width: 100%;
+            height: 100%;
+        }
+
+        .prev,
+        .next {
+            position: absolute;
+            top: 130px;
+            height: 50px;
+            width: 60px;
+            text-align: center;
+            font-size: 50px;
+            cursor: pointer;
+        }
+
+        .prev:hover,
+        .next:hover {
+            background-color: #f70204;
+            color: #fff;
+        }
+
+        .prev {
+            left: 20px;
+        }
+
+        .next {
+            right: 20px;
+        }
+
+        .box ol {
+            position: absolute;
+            right: 20px;
+            bottom: 20px;
+        }
+
+        .box ol li {
+            width: 30px;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            background-color: #f70204;
+            border-radius: 50%;
+            color: #fff;
+            font-size: 16px;
+            margin-right: 5px;
+        }
+
+        .box ol li:hover {
+            background-color: darkorange;
+        }
+
+        .box ol li.on {
+            background-color: darkorange;
+        }
+
+        .hide {
+            display: none;
+        }
+
+        .current {
+            background-color: #ccc !important;
+
+        }
+    </style>
+    <script src="jquery.js"></script>
+    <script>
+        $(function () {
+            var images = document.querySelectorAll('.ul li');
+            var pagers = document.querySelectorAll('.ol li');
+            var prev = document.querySelector('.prev');
+            var next = document.querySelector('.next');
+            var currentIndex = 0;
+            function showPic(index) {
+                for (let i = 0; i < images.length; i++) {
+
+                    var image = images[i];
+                    var pager = pagers[i];
+
+
+                    image.classList.add('hide');
+
+                    pager.classList.remove('current');
+                    if (i === index) {
+                        image.classList.remove('hide');
+                        pager.classList.add('current');
+                    }
+                }
+            }
+
+            function autoPlay() {
+                showPic(currentIndex);
+                currentIndex = currentIndex >= images.length - 1 ? 0 : ++currentIndex;
+            }
+
+
+            var timer = setInterval(autoPlay, 3000);
+
+
+            for (let i = 0; i < pagers.length; i++) {
+                pagers[i].onclick = function () {
+                    showPic(i);
+                    currentIndex = i;
+                }
+            }
+
+
+            prev.onclick = function () {
+
+                currentIndex = currentIndex == 0 ? images.length - 1 : --currentIndex;
+                showPic(currentIndex);
+            }
+
+
+            next.onclick = function () {
+
+                currentIndex = currentIndex >= images.length - 1 ? 0 : ++currentIndex;
+                showPic(currentIndex);
+            }
+        })
+
+    </script>
+</head>
+
+<body>
+    <div class="box">
+        <ul class="clearfix ul">
+            <li><img src="img/01.jpg" alt=""></li>
+            <li><img src="img/02.jpg" alt=""></li>
+            <li><img src="img/03.jpg" alt=""></li>
+            <li><img src="img/04.jpg" alt=""></li>
+            <li><img src="img/05.jpg" alt=""></li>
+            <li><img src="img/06.jpg" alt=""></li>
+        </ul>
+        <i class="fa fa-angle-left prev" title="前一张"></i>
+        <i class="fa fa-angle-right next" title="下一张"></i>
+        <ol class="clearfix ol">
+            <li class="on">1</li>
+            <li>2</li>
+            <li>3</li>
+            <li>4</li>
+            <li>5</li>
+            <li>6</li>
+        </ol>
+    </div>
+
+</body>
+
+</html>
